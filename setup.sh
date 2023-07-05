@@ -15,14 +15,17 @@ sudo make install
 # Build the demo program
 cd $PWD
 make
+EXEC_FILE=raylib-demo
 
 # Make it run at boot time
-SERVICE_FILE=/lib/systemd/system/cluster.service
+SERVICE_FILE=/lib/systemd/system/$EXEC_FILE.service
 touch $SERVICE_FILE
 echo "[Unit]" > $SERVICE_FILE
-echo "Description=Digital Gauge Cluster" >> $SERVICE_FILE
+echo "Description=Raylib Demo" >> $SERVICE_FILE
 echo "After=multi-user.target\n" >> $SERVICE_FILE
 echo "[Service]" >> $SERVICE_FILE
-echo "ExecStart=$PWD/bin/$EXEC_FILE\n" >> $SERVICE_FILE
+echo "ExecStart=$PWD/$EXEC_FILE\n" >> $SERVICE_FILE
 echo "[Install]" >> $SERVICE_FILE
 echo "WantedBy=multi-user.target" >> $SERVICE_FILE
+sudo systemctl daemon-reload
+sudo systemctl enable $EXEC_FILE.service
